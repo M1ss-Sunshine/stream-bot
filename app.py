@@ -123,7 +123,7 @@ def check_stream():
 
                     send_message(
                         '<tg-emoji emoji-id="5348299705992374531">⚡️</tg-emoji> '
-                        '<b>M1ss_Sunshine уже мурчит в эфире</b> '
+                        '<b>M1ss_Sunshine мурчит в эфире</b> '
                         '<tg-emoji emoji-id="5348299705992374531">⚡️</tg-emoji>\n\n'
                         'Залетай на стрим и приятного просмотра '
                         '<tg-emoji emoji-id="5348110581402461749">💜</tg-emoji>',
