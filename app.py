@@ -14,10 +14,10 @@ CLIENT_ID = os.getenv("CLIENT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 STREAMER_LOGIN = os.getenv("STREAMER_LOGIN")
 
-# ===== КАРТИНКА ДЛЯ НАЧАЛА СТРИМА =====
+# ===== КАРТИНКА ДЛЯ СТАРТА =====
 STREAM_IMAGE = "https://i.pinimg.com/736x/4f/6f/c8/4f6fc8447d21181bf320a551f64b4fd6.jpg"
 
-# ===== СОСТОЯНИЕ =====
+# ===== STATE =====
 is_live = False
 stream_start_time = None
 max_viewers = 0
@@ -27,8 +27,9 @@ access_token = None
 # ===== TELEGRAM MESSAGE =====
 def send_message(text, image=None, button=False):
 
-    # ===== СООБЩЕНИЕ С КАРТИНКОЙ =====
+    # ===== С КАРТИНКОЙ =====
     if image:
+
         url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendPhoto"
 
         data = {
@@ -38,8 +39,9 @@ def send_message(text, image=None, button=False):
             "parse_mode": "HTML"
         }
 
-    # ===== ОБЫЧНОЕ ТЕКСТОВОЕ СООБЩЕНИЕ =====
+    # ===== ОБЫЧНОЕ СООБЩЕНИЕ =====
     else:
+
         url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
         data = {
@@ -48,15 +50,17 @@ def send_message(text, image=None, button=False):
             "parse_mode": "HTML"
         }
 
-    # ===== КНОПКА TWITCH =====
+    # ===== КНОПКА =====
     if button:
+
         data["reply_markup"] = {
             "inline_keyboard": [[
                 {
-                    "text": "🎮 Смотреть стрим",
-                    "url": f"https://twitch.tv/{STREAMER_LOGIN}",
-                    "style": "primary"
-                }
+    "text": "Смотреть стрим",
+    "url": f"https://twitch.tv/{STREAMER_LOGIN}",
+    "style": "primary",
+    "icon_custom_emoji_id": "5348110581402461749"
+}
             ]]
         }
 
@@ -65,6 +69,7 @@ def send_message(text, image=None, button=False):
 
 # ===== TWITCH TOKEN =====
 def get_token():
+
     global access_token
 
     url = "https://id.twitch.tv/oauth2/token"
@@ -76,14 +81,17 @@ def get_token():
     }
 
     r = requests.post(url, params=params)
+
     access_token = r.json().get("access_token")
 
 
 # ===== ПРОВЕРКА СТРИМА =====
 def check_stream():
+
     global is_live, stream_start_time, max_viewers, access_token
 
     while True:
+
         try:
 
             if not access_token:
@@ -97,6 +105,7 @@ def check_stream():
             }
 
             r = requests.get(url, headers=headers).json()
+
             data = r.get("data", [])
 
             # ===== СТРИМ НАЧАЛСЯ =====
@@ -113,8 +122,11 @@ def check_stream():
                     stream_start_time = datetime.utcnow()
 
                     send_message(
-                        "🔴 <b>M1ss_Sunshine уже в эфире!</b>\n\n"
-                        "💜 Залетай на стрим и приятного просмотра ✨",
+                        '<tg-emoji emoji-id="5348299705992374531">⚡️</tg-emoji> '
+                        '<b>M1ss_Sunshine уже мурчит в эфире</b> '
+                        '<tg-emoji emoji-id="5348299705992374531">⚡️</tg-emoji>\n\n'
+                        'Залетай на стрим и приятного просмотра '
+                        '<tg-emoji emoji-id="5348110581402461749">💜</tg-emoji>',
                         image=STREAM_IMAGE,
                         button=True
                     )
@@ -137,15 +149,22 @@ def check_stream():
                         duration_text = f"{hours}:{minutes:02}"
 
                         send_message(
-                            f"🎉 <b>M1ss_Sunshine закончил стрим</b>\n\n"
-                            f"🕒 Длительность стрима: <b>{duration_text}</b>\n"
-                            f"👥 Пик зрителей: <b>{max_viewers}</b>\n\n"
-                            f"💜 Спасибо всем, кто был на стриме"
+                            '<tg-emoji emoji-id="5348587443031403178">⭐️</tg-emoji> '
+                            '<b>M1ss_Sunshine закончила стрим</b> '
+                            '<tg-emoji emoji-id="5348587443031403178">⭐️</tg-emoji>\n\n'
+                            '<tg-emoji emoji-id="5345840253099864159">⌛️</tg-emoji> '
+                            f'Длительность стрима: <b>{duration_text}</b>\n'
+                            '<tg-emoji emoji-id="5345913576781539831">🐱</tg-emoji> '
+                            f'Зрители: <b>{max_viewers}</b>\n\n'
+                            '<tg-emoji emoji-id="5348118424012745224">💜</tg-emoji> '
+                            'Спасибо всем, кто был на стриме '
+                            '<tg-emoji emoji-id="5348118424012745224">💜</tg-emoji>'
                         )
 
                     max_viewers = 0
 
         except Exception as e:
+
             print("error:", e)
 
         # ===== ПРОВЕРКА КАЖДУЮ МИНУТУ =====
