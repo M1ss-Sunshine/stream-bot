@@ -187,31 +187,14 @@ def test():
 
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
-    text = "X M1ss_Sunshine уже в эфире X"
-
     data = {
         "chat_id": CHAT_ID,
-        "text": text,
-        "entities": [
-            {
-                "offset": 0,
-                "length": 1,
-                "type": "custom_emoji",
-                "custom_emoji_id": "5348299705992374531"
-            },
-            {
-                "offset": 31,
-                "length": 1,
-                "type": "custom_emoji",
-                "custom_emoji_id": "5348299705992374531"
-            }
-        ]
+        "text": "ТЕСТ БЕЗ CUSTOM EMOJI"
     }
 
-    requests.post(url, json=data)
+    r = requests.post(url, json=data)
 
-    return "test sent"
-
+    return str(r.text)
 
 # ===== ЗАПУСК =====
 if __name__ == "__main__":
