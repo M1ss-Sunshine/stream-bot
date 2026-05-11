@@ -168,7 +168,7 @@ def check_stream():
             print("error:", e)
 
         # ===== ПРОВЕРКА КАЖДУЮ МИНУТУ =====
-        time.sleep(60)
+        time.sleep(15)
 
 
 # ===== ROUTE =====
